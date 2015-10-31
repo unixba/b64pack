@@ -1,0 +1,55 @@
+.TH B64PACK 1
+.SH NAME
+b64pack \- fast compression of short text messages
+.SH SYNOPSIS
+.B b64pack
+[\fB\-d\fR]
+.SH DESCRIPTION
+.I B64pack
+compresses short text messages using simple character encoding followed by a base64 decoding pass.
+It was originally written to help squeeze more than 160 characters into a single SMS message.
+Depending on the content, text messages up to 213 characters long can be compressed to fit into
+the 160-character limit.
+.LP
+If no options are specified, the program reads a text message from standard input and writes a
+compressed message to standard output. If
+.B \-d
+is given, standard input is expected to hold a compressed message, which is decompressed and written
+to standard output.
+.LP
+When used to compress very short text messages with lengths ranging up to the mentioned limit
+of 213 characters,
+.I b64pack
+usually achieves better compression than
+.IR compress ,
+.IR gzip ,
+.IR bzip2 ,
+and
+.IR xz .
+When it comes to speed,
+.I b64pack
+is also significantly faster than any of these programs.
+.LP
+Due to its speed and simplicity, the compression method used by
+.I b64pack
+can be employed between clients and messaging servers and gateways for transparent real-time
+compression of large volumes of different types of short messages, such as SMS, tweets,
+instant messages and alike.
+.SH OPTIONS
+.TP
+.B \-d
+decompress instead of compressing
+.SH "SEE ALSO"
+compress(1), gzip(1), bzip2(1), xz(1), base64(1)
+.SH BUGS
+Any message, whose length after transcoding is not a multiple of four, is padded with spaces during compression.
+The spaces reappear when the message is decompressed. Currently,
+.I b64pack
+doesn't handle trailing spaces in decompressed messages.
+.SH AUTHOR
+Written by Kenan Kalajdzic <kenan@unix.ba> based on the paper:
+.LP
+Kenan Kalajdzic, Samaher Hussein Ali and Ahmed Patel.
+Rapid Lossless Compression of Short Text Messages.
+Computer Standards & Interfaces, Elsevier, January 2015.
+http://dx.doi.org/10.1016/j.csi.2014.05.005
